@@ -2,6 +2,7 @@ package main
 
 import (
 	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
+	"consignment-service/utils"
 
 	"context"
 	"google.golang.org/grpc"
@@ -64,7 +65,7 @@ func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest) (*pb.
 
 func main() {
 
-	utils.PrintText("running...")
+	utils.PrintWithTime("running...")
 
 	listener, err := net.Listen("tcp", PORT)
 	if err != nil {
