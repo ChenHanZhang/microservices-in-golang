@@ -1,11 +1,12 @@
 package main
 
 import (
+	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
+
 	"context"
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	pb "shippy/consignment-service/proto/consignment"
 )
 
 const (
@@ -62,6 +63,9 @@ func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest) (*pb.
 }
 
 func main() {
+
+	utils.PrintText("running...")
+
 	listener, err := net.Listen("tcp", PORT)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
