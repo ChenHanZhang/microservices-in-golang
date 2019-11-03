@@ -39,14 +39,15 @@ type service struct {
 
 // service 实现 consignment.pb.go 中的 ShippingServiceServer 接口
 // 使 service 作为 gRPC 的服务端
-// TODO: 这就是 Go 中隐式接口实现(类继承)
+// 就是这个CreateConsignment方法，它接受一个context以及proto中定义的
+// TODO: Consignment消息，这个Consignment是由 gRPC 的服务器处理后提供给你的
 func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*pb.Response, error) {
 	// 接收承运的货物
 	consignment, err := s.repo.Create(req)
 	if err != nil {
 		return nil, err
 	}
-	// TODO: 如果返回的是一个指针，Go语言编译器会自动分析到变量泄漏，该变量会分配在堆空间上
+
 	resp := &pb.Response{
 		Created:              true,
 		Consignment:          consignment,
