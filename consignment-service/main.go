@@ -1,13 +1,11 @@
 package main
 
 import (
-	"consignment-service/utils"
 	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
+	micro "github.com/micro/go-micro"
 
 	"context"
-	"google.golang.org/grpc"
-	"log"
-	"net"
+	"fmt"
 )
 
 const (
@@ -43,47 +41,38 @@ type service struct {
 // 使 service 作为 gRPC 的服务端
 // 就是这个CreateConsignment方法，它接受一个context以及proto中定义的
 // TODO: Consignment消息，这个Consignment是由 gRPC 的服务器处理后提供给你的
-func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*pb.Response, error) {
+func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 	// 接收承运的货物
 	consignment, err := s.repo.Create(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	resp := &pb.Response{
-		Created:              true,
-		Consignment:          consignment,
-	}
-	return resp, nil
+	res.Created = true
+	res.Consignment = consignment
+	return nil
 }
 
-func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest) (*pb.Response, error) {
+func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
 	allConsignments := s.repo.GetAll()
-	resp := &pb.Response{Consignments: allConsignments}
-	return resp, nil
+	res.Consignments = allConsignments
+	return nil
 }
 
 func main() {
-
-	utils.PrintWithTime("running...")
-
-	listener, err := net.Listen("tcp", PORT)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	log.Printf("listen on: %s\n", PORT)
-
-	server := grpc.NewServer()
 	repo := Repository{}
 
-	// 向 rRPC 服务器注册微服务
-	// 此时会把我们自己实现的微服务 service 与协议中的 ShippingServiceServer 绑定
-	pb.RegisterShippingServiceServer(server, &service{repo})
-	// 上述函数的原型 RegisterShippingServiceServer(s *grpc.Server, srv ShippingServiceServer)
-	// 其实就是将 一个实现了 ShippingServiceServer 的实例绑定到 server 上
-	// TODO: 具体的内部实现细节暂且不考虑
+	// 注意，这里采用 go-micro 来实现
+	srv := micro.NewService(
+			micro.Name("go.micro.srv.consignment"),
+			micro.Version("latest"),
+			)
 
-	if err := server.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+	srv.Init()
+
+	err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo})
+
+	if err = srv.Run(); err != nil {
+		fmt.Println(err)
 	}
 }
