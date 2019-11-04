@@ -1,10 +1,11 @@
 package main
 
 import (
+	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
+	micro "github.com/micro/go-micro"
+
 	"context"
 	"fmt"
-	micro "github.com/micro/go-micro"
-	pb "shippy/consignment-service/proto/consignment"
 )
 
 const (
@@ -69,9 +70,9 @@ func main() {
 
 	srv.Init()
 
-	pb.RegisterShippingServiceHandler(srv.Server(), &service{repo})
+	err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo})
 
-	if err := srv.Run(); err != nil {
+	if err = srv.Run(); err != nil {
 		fmt.Println(err)
 	}
 }

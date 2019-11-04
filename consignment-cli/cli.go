@@ -1,6 +1,8 @@
 package main
 
 import (
+	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
+
 	"context"
 	"encoding/json"
 	"errors"
@@ -9,7 +11,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	pb "shippy/consignment-service/proto/consignment"
 )
 
 const (
