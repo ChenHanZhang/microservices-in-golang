@@ -34,10 +34,10 @@ func parseFile(fileName string) (*pb.Consignment, error) {
 
 func main() {
 
-	cmd.Init()
+	err := cmd.Init()
 
 	// 服务发现 => pb.NewShippingService TODO: 这个方法封装了什么？
-	client := pb.NewShippingService("go.micro.srv.consignment", microclient.DefaultClient)
+	client := pb.NewShippingService("consignment", microclient.DefaultClient)
 
 	// 可以在命令行中指定 json 文件
 	infoFile := DEFAULT_INFO_FILE
