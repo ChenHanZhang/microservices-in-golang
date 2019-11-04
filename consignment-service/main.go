@@ -1,8 +1,8 @@
 package main
 
 import (
-	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
 	"consignment-service/utils"
+	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
 
 	"context"
 	"google.golang.org/grpc"
