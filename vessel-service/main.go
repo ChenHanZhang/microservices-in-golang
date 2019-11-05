@@ -1,58 +1,57 @@
 package main
 
 import (
-	"context"
-	"errors"
-	"fmt"
 	pb "github.com/ChenHanZhang/microservices-in-golang/proto/vessel"
+	"log"
+
+	"fmt"
 	micro "github.com/micro/go-micro"
+	"golang.org/x/tools/go/ssa/interp/testdata/src/os"
 )
 
-type Repository interface {
-	FindAvailable(*pb.Specification)(*pb.Vessel, error)
-}
+const (
+	defaultHost = "localhost:27017"
+)
 
-type VesselRepository struct {
-	vessels []*pb.Vessel
-}
-
-func (repo *VesselRepository) FindAvailable(spec *pb.Specification) (*pb.Vessel, error) {
-	for _, vessel := range repo.vessels {
-		if spec.Capacity <= vessel.Capacity && spec.MaxWeight <= vessel.MaxWeight {
-			return vessel, nil
-		}
+func createDummyData(repo Repository) {
+	defer repo.Close()
+	vessels := []*pb.Vessel{
+		{Id: "vessel001", Name: "Kane's Salty Secret", MaxWeight: 200000, Capacity: 500},
 	}
-	return nil, errors.New("no vessel found by that spec")
-}
-
-type service struct {
-	repo Repository
-}
-
-func (s *service) FindAvailable(ctx context.Context, req *pb.Specification, res *pb.Response) error {
-	vessel, err := s.repo.FindAvailable(req)
-	if err != nil {
-		return err
+	for _, v := range vessels{
+		_ = repo.Create(v)
 	}
-
-	res.Vessel = vessel
-	return nil
 }
 
 func main() {
-	vessels := []*pb.Vessel{
-		&pb.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 55000},
+	host := os.Getenv("DB_HOST")
+
+	if host == "" {
+		host = defaultHost
 	}
-	repo := &VesselRepository{vessels}
+
+	session, err := CreateSession(host)
+
+	if err != nil {
+		log.Fatalf("Error connecting to datastore: %v", err)
+	}
+
+	defer session.Close()
+
+	repo := &VesselRepository{session.Copy()}
+
+	createDummyData(repo)
 
 	srv := micro.NewService(
-			micro.Name("go.micro.srv.vessel"),
-			micro.Version("latest"),
-		)
+		micro.Name("go.micro.srv.vessel"),
+		micro.Version("latest"),
+	)
 
 	srv.Init()
 
-	pb.RegisterVesselServiceHandler(srv.Server(), &service{repo})
+	// Register our implementation with
+	pb.RegisterVesselServiceHandler(srv.Server(), &service{session})
+
 	if err := srv.Run(); err != nil {
 		fmt.Println(err)
 	}

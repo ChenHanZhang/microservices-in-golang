@@ -14,10 +14,11 @@ require (
 	github.com/nats-io/nkeys v0.1.2 // indirect
 	go.uber.org/zap v1.12.0 // indirect
 	golang.org/x/crypto v0.0.0-20191029031824-8986dd9e96cf // indirect
-	golang.org/x/net v0.0.0-20191101175033-0deb6923b6d9 // indirect
+	golang.org/x/net v0.0.0-20191101175033-0deb6923b6d9
 	golang.org/x/sys v0.0.0-20191104094858-e8c54fb511f6 // indirect
 	golang.org/x/tools v0.0.0-20191101200257-8dbcdeb83d3f // indirect
 	google.golang.org/genproto v0.0.0-20191028173616-919d9bdd9fe6 // indirect
+	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
 
 replace github.com/ChenHanZhang/microservices-in-golang/proto/vessel => ../proto/vessel
