@@ -3,7 +3,7 @@ module consignment-cli
 go 1.13
 
 require (
-	github.com/ChenHanZhang/microservices-in-golang/proto/consignment v0.0.0
+	github.com/ChenHanZhang/microservices-in-golang v1.0.0
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/json-iterator/go v1.1.8 // indirect
@@ -21,5 +21,3 @@ require (
 )
 
 replace github.com/lucas-clemente/quic-go => github.com/lucas-clemente/quic-go v0.7.1-0.20190913061013-f15a82d3fdc3
-
-replace github.com/ChenHanZhang/microservices-in-golang/proto/consignment => ../proto/consignment
