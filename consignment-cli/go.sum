@@ -21,6 +21,7 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/ChenHanZhang/microservices-in-golang v0.0.0-20191103141106-81487af1ffb1 h1:Mh+iLe0CbEcXPhlL6EakL1+3fjAeC+nbaeFJQmdxiUQ=
 github.com/ChenHanZhang/microservices-in-golang v0.0.0-20191103141106-81487af1ffb1/go.mod h1:DCU8Ubq20yCNM4P8aSG8UGMC7w42iIz6Ffgypye04CM=
 github.com/ChenHanZhang/microservices-in-golang v1.0.0/go.mod h1:DCU8Ubq20yCNM4P8aSG8UGMC7w42iIz6Ffgypye04CM=
+github.com/ChenHanZhang/microservices-in-golang v1.0.2/go.mod h1:DCU8Ubq20yCNM4P8aSG8UGMC7w42iIz6Ffgypye04CM=
 github.com/Microsoft/go-winio v0.4.14/go.mod h1:qXqCSQ3Xa7+6tgxaGTIe4Kpcdsi+P8jBhyzoq1bpyYA=
 github.com/Microsoft/hcsshim v0.8.6/go.mod h1:Op3hHsoHPAvb6lceZHDtd9OkTew38wNoXnJs8iY7rUg=
 github.com/OpenDNS/vegadns2client v0.0.0-20180418235048-a3fa4a771d87/go.mod h1:iGLljf5n9GjT6kc0HBvyI1nOKnGQbNB66VzSNbK5iks=
