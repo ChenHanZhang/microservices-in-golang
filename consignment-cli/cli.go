@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
+	pb "github.com/ChenHanZhang/microservices-in-golang-proto/consignment"
 
 	"context"
 	"encoding/json"

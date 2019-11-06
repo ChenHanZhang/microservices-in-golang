@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/ChenHanZhang/microservices-in-golang/proto v1.1.0
+	github.com/ChenHanZhang/microservices-in-golang-proto v1.0.1
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
 

@@ -7,9 +7,7 @@ COPY . .
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn
 
-RUN go get -u
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
-
 
 FROM alpine:latest
 

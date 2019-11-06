@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "github.com/ChenHanZhang/microservices-in-golang/proto/vessel"
+	pb "github.com/ChenHanZhang/microservices-in-golang-proto/vessel"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

@@ -7,7 +7,7 @@ services:
     environment:
       MICRO_REGISTRY: "mdns"
 
-  consignmnent-service:
+  consignment-service:
     build: ./consignment-service
     environment:
       MICRO_ADDRESS: ".50051"

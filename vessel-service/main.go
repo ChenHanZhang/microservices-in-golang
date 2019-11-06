@@ -1,12 +1,12 @@
 package main
 
 import (
-	pb "github.com/ChenHanZhang/microservices-in-golang/proto/vessel"
-	"log"
+	pb "github.com/ChenHanZhang/microservices-in-golang-proto/vessel"
 
 	"fmt"
 	micro "github.com/micro/go-micro"
-	"golang.org/x/tools/go/ssa/interp/testdata/src/os"
+	"log"
+	"os"
 )
 
 const (

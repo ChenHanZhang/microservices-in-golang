@@ -5,8 +5,8 @@ import (
 	"gopkg.in/mgo.v2"
 	"log"
 
-	pb "github.com/ChenHanZhang/microservices-in-golang/proto/consignment"
-	vesselProto "github.com/ChenHanZhang/microservices-in-golang/proto/vessel"
+	pb "github.com/ChenHanZhang/microservices-in-golang-proto/consignment"
+	vesselProto "github.com/ChenHanZhang/microservices-in-golang-proto/vessel"
 )
 
 type service struct {

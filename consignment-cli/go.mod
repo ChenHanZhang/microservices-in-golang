@@ -3,7 +3,7 @@ module consignment-cli
 go 1.13
 
 require (
-	github.com/ChenHanZhang/microservices-in-golang/proto v1.1.0
+	github.com/ChenHanZhang/microservices-in-golang-proto v1.0.1
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/json-iterator/go v1.1.8 // indirect
