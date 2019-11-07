@@ -33,7 +33,7 @@ func main() {
 	session, err := CreateSession(host)
 
 	if err != nil {
-		log.Fatalf("Error connecting to datastore: %v", err)
+		log.Fatalf("Error connecting to datastore: %v, %s", err, host)
 	}
 
 	defer session.Close()
