@@ -2,6 +2,7 @@ package main
 
 import (
 	pb "github.com/ChenHanZhang/microservices-in-golang-proto/consignment"
+	"github.com/micro/go-micro/metadata"
 
 	"context"
 	"encoding/json"
@@ -39,11 +40,14 @@ func main() {
 	// 服务发现 => pb.NewShippingService TODO: 这个方法封装了什么？
 	client := pb.NewShippingServiceClient("go.micro.srv.consignment", microclient.DefaultClient)
 
-	// 可以在命令行中指定 json 文件
 	infoFile := DEFAULT_INFO_FILE
-	if len(os.Args) > 1 {
-		infoFile = os.Args[1]
+
+	if len(os.Args) < 3 {
+		log.Fatal(errors.New("no enough parms."))
 	}
+
+	infoFile = os.Args[1]
+	token := os.Args[2]
 
 	// 解析货物
 	consignment, err := parseFile(infoFile)
@@ -51,11 +55,17 @@ func main() {
 		log.Fatalf("parse info file error: %v", err)
 	}
 
+	// 创建一个包含自定义token 的上下文
+	// 这个上下文会在我们调用consignment-service时被传入
+	ctx := metadata.NewContext(context.Background(), map[string]string{
+		"token": token,
+	})
+
 	// 调用 RPC
 	// 将货物存储到自己的仓库里
 	// TODO: 这样就实现了如同本地调用函数一样的方式来调用远程方法
 	//
-	resp, err := client.CreateConsignment(context.Background(), consignment)
+	resp, err := client.CreateConsignment(ctx, consignment)
 	if err != nil {
 		log.Fatalf("create consignment error: %v", err)
 	}
