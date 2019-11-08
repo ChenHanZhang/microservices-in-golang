@@ -31,7 +31,20 @@ services:
       MICRO_REGISTRY: "mmdns"
       DB_HOST: "datastore:27017"
 
+  user-service:
+    build: ./user-service
+    ports:
+      - 50053:50053
+    environment:
+      MICRO_ADDRESS: ":50051"
+      MICRO_REGISTRY: "mdns"
+
   datastore:
     image: mongo
     ports:
       - 27017:27017
+
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
