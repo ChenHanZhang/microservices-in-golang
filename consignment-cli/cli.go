@@ -65,8 +65,6 @@ func main() {
 
 	// 调用 RPC
 	// 将货物存储到自己的仓库里
-	// TODO: 这样就实现了如同本地调用函数一样的方式来调用远程方法
-	//
 	resp, err := client.CreateConsignment(ctx, consignment)
 	if err != nil {
 		log.Fatalf("create consignment error: %v", err)
@@ -75,7 +73,7 @@ func main() {
 	log.Printf("created: %t", resp.Created)
 
 	// 列出当前所有托运的货物
-	resp, err = client.GetConsignments(context.Background(), &pb.GetRequest{})
+	resp, err = client.GetConsignments(ctx, &pb.GetRequest{})
 	if err != nil {
 		log.Fatalf("failed to list consignments: %v", err)
 	}

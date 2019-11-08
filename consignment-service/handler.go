@@ -22,11 +22,17 @@ func (s *service) GetRepo() Repository {
 func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 	repo := s.GetRepo()
 	defer repo.Close()
+
+	log.Println("creating consignment...")
+	log.Println("Looking for a available vessel..")
+
 	vesselResponse, err := s.vesselClient.FindAvailable(context.Background(), &vesselProto.Specification{
 		MaxWeight: req.Weight,
 		Capacity: int32(len(req.Containers)),
 	})
 	if err != nil {
+		// TODO: 这里有必要将错误给 Wrap 上吗
+		log.Printf("vesselClient cause an error: %v\n", err)
 		return err
 	}
 	log.Printf("Found vessel: %s \n", vesselResponse.Vessel.Name)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	pb "github.com/ChenHanZhang/microservices-in-golang-proto/user"
 	"github.com/dgrijalva/jwt-go"
 	"time"
@@ -29,6 +30,10 @@ func (s *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return key, nil
 	})
+
+	if token == nil {
+		return nil, errors.New("need a token to access")
+	}
 
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		return claims, nil
