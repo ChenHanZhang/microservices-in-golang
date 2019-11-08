@@ -1,16 +1,21 @@
 package main
 
 import (
+	"errors"
 	pb "github.com/ChenHanZhang/microservices-in-golang-proto/user"
 	_ "github.com/jinzhu/gorm"
+	"github.com/micro/go-micro"
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 	"log"
 )
 
+const topic = "user.created"
+
 type service struct {
 	repo Repostory
 	tokenService Authable
+	Publisher micro.Publisher
 }
 
 func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) error {
@@ -23,6 +28,12 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 		return err
 	}
 	res.User = req
+
+	// 发布消息
+	if err := s.Publisher.Publish(ctx, req); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -65,6 +76,18 @@ func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 }
 
 func (s *service) ValidateToken(ctx context.Context, req *pb.Token, res *pb.Token) error {
+
+	claims, err := s.tokenService.Decode(req.Token)
+
+	if err != nil {
+		return err
+	}
+
+	if claims.User.Id == "" {
+		return errors.New("invalid user")
+	}
+
+	res.Valid = true
 	return nil
 }
 

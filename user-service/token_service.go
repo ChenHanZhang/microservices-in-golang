@@ -17,15 +17,15 @@ type CustomClaims struct {
 }
 
 type Authable interface {
-	Decode(token string) (interface{}, error)
-	Encode(data interface{}) (string, error)
+	Decode(token string) (*CustomClaims, error)
+	Encode(user *pb.User) (string, error)
 }
 
 type TokenService struct {
 	repo Repostory
 }
 
-func (s *TokenService) Decode(tokenString string) (interface{}, error) {
+func (s *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return key, nil
 	})
@@ -37,7 +37,7 @@ func (s *TokenService) Decode(tokenString string) (interface{}, error) {
 	}
 }
 
-func (s *TokenService) Encode(user *pb.User) (interface{}, error)  {
+func (s *TokenService) Encode(user *pb.User) (string, error)  {
 
 	expireToken := time.Now().Add(time.Hour * 72).Unix()
 	// 生成 claims
