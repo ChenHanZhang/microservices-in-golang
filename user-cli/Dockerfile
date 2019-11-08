@@ -1,7 +1,7 @@
 FROM golang:1.13 as builder
 
 # 将工作目录设置为当前微服务在gopath中的完整路径
-WORKDIR /go/src/github.com/ChenHanZhang/microservices-in-golang/user-service
+WORKDIR /go/src/github.com/ChenHanZhang/microservices-in-golang/user-cli
 
 # 将代码复制到工作目录中
 COPY . .
@@ -18,6 +18,6 @@ RUN apk --no-cache add ca-certificates
 
 RUN mkdir /app
 WORKDIR /app
-COPY --from=builder /go/src/github.com/ChenHanZhang/microservices-in-golang/user-service/user-service .
+COPY --from=builder /go/src/github.com/ChenHanZhang/microservices-in-golang/user-cli/user-cli .
 
-CMD ["./user-service"]
+CMD ["./user-cli"]

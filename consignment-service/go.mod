@@ -15,6 +15,4 @@ require (
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
 
-replace github.com/ChenHanZhang/microservices-in-golang-proto => ../../m-protos
-
 replace github.com/lucas-clemente/quic-go => github.com/lucas-clemente/quic-go v0.7.1-0.20190913061013-f15a82d3fdc3

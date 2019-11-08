@@ -13,12 +13,13 @@ import (
 const topic = "user.created"
 
 type service struct {
-	repo Repostory
+	repo Repository
 	tokenService Authable
 	Publisher micro.Publisher
 }
 
 func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) error {
+	log.Println("password:", req.Password)
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -57,11 +58,12 @@ func (s *service) GetAll(ctx context.Context, req *pb.Request, res *pb.Response)
 
 func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 	log.Println("logging in with:", req.Email, req.Password)
-	user, err := s.repo.GetByEmailAndPassword(req)
+	user, err := s.repo.GetByEmail(req.Email)
 	if err != nil {
 		return err
 	}
-
+	log.Println("user password: ", user.Password)
+	log.Println("input password: ", req.Password)
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return err
 	}

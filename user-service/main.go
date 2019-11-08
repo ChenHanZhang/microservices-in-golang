@@ -17,7 +17,7 @@ func main() {
 
 	db.AutoMigrate(&pb.User{})
 
-	repo := &UserRepostory{db}
+	repo := &UserRepository{db}
 
 	tokenService := &TokenService{repo}
 

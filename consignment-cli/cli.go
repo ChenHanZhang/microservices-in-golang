@@ -49,6 +49,8 @@ func main() {
 	infoFile = os.Args[1]
 	token := os.Args[2]
 
+	log.Println("use token: ", token)
+
 	// 解析货物
 	consignment, err := parseFile(infoFile)
 	if err != nil {
